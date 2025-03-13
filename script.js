@@ -1,12 +1,26 @@
 const result = document.getElementById("result");
 const displayScore = document.getElementById("score");
 
-let playerScore = 0;
-let computerScore = 0;
-let comp = undefined;
+const score = JSON.parse(localStorage.getItem('score')) || {
+    playerScore: 0,
+    computerScore: 0,
+    draws: 0
+};
 
-displayScore.innerText += ' ' + playerScore + ' - ' + computerScore;
-result.innerHTML = 'Choose any one!';
+let comp = undefined;
+showScore();
+
+function reset() {
+    score.playerScore = 0;
+    score.computerScore = 0;
+    score.draws = 0;
+    showScore();
+    hidePick('', 'P');
+    hidePick('', 'C');
+    document.getElementById('player').style.display = 'block';
+    document.getElementById('computer').style.display = 'block';
+    result.innerHTML = 'Choose any one!';
+}
 
 function computerPick() {
     let num = Math.random();
@@ -34,43 +48,48 @@ function hidePick(pickP, user) {
 }
 
 function playerPick(pickP) {
-    const currPick = document.getElementById(`${pickP}P`);
     let pickC = computerPick();
-    console.log(pickC);
+    const currPick = document.getElementById(`${pickP}P`);
     const compPick = document.getElementById(`${pickC}C`);
     if(pickP === pickC) {
         result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. It's a Tie`;
+        score.draws++;
     } else if(pickP === 'rock') {
         if(pickC === 'scissor') {
             result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. You Win!`;
-            playerScore++;
+            score.playerScore++;
         } else {
             result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. You Lose!`;
-            computerScore++;
+            score.computerScore++;
         }
     } else if (pickP === 'paper') {
         if(pickC === 'rock') {
             result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. You Win!`;
-            playerScore++;
+            score.playerScore++;
         } else {
             result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. You Lose!`;
-            computerScore++;
+            score.computerScore++;
         }
     } else {
         if(pickC === 'paper') {
             result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. You Win!`;
-            playerScore++;
+            score.playerScore++;
         } else {
             result.innerHTML = `You chose ${pickP} and Computer chose ${pickC}. You Lose!`;
-            computerScore++;
+            score.computerScore++;
         }
     }
+    document.getElementById('player').style.display = 'none';
+    document.getElementById('computer').style.display = 'none';
     showScore();
     currPick.style.display = 'block';
     compPick.style.display = 'block';
+
+    localStorage.setItem('score', JSON.stringify(score));
+
     return pickC;
 }
 
 function showScore() {
-    displayScore.innerText = 'Score: ' + playerScore + ' - ' + computerScore;
+    displayScore.innerHTML = `Score: ${score.playerScore} - ${score.computerScore} (${score.draws})`;
 }

@@ -9,23 +9,18 @@
 <body>
     <div class="main-box">
         <div class="profile">
-            <div class="pfp" id="player">
+            <div class="pfp">
+                <p id="player">You</p>
                 <img src="rock.png" class="pick" id="rockP">
                 <img src="paper.png" class="pick" id="paperP"> 
                 <img src="scissor.png" class="pick" id="scissorP">
             </div>
             <div class="score">
                 <p id="score">Score:</p>
-                <button class="score-btn" onclick="
-                    playerScore = 0;
-                    computerScore = 0;
-                    showScore();
-                    hidePick('', 'C');
-                    hidePick('all', 'P');
-                    result.innerHTML = 'Choose any one!';
-                ">Reset Score</button>
+                <button class="score-btn" onclick="reset()">Reset Score</button>
             </div>
-            <div class="pfp" id="computer">
+            <div class="pfp">
+                <p id="computer">Computer</p>
                 <img src="rock.png" class="pick" id="rockC">
                 <img src="paper.png" class="pick" id="paperC"> 
                 <img src="scissor.png" class="pick" id="scissorC">
